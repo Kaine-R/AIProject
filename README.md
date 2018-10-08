@@ -32,7 +32,7 @@ If you want to quickly switch pictures change NAME in ("Images/NAME.png") to wha
 
 ### Pygame Tips:
 
-All objects that are bing displayed have a "rect"
+All objects that are being displayed have a "rect".
 
 You can use this to get several things:
 ```python
@@ -65,6 +65,6 @@ The player is a bit different, if you want to move him, then you have to move `p
 
 **Enemy is not yet finished and is only going to be added if the spike doesn't seem like enough of a challenge.**
 
-**As for as I know, pygame doesn't use triangles, so we'lll create some kind of square killing device**
+**As for as I know, pygame doesn't use triangles, so we'll create some kind of square killing device**
 
-**If you want to mess around with the code, but dont know where to start, mess with settings.**
+**If you want to mess around with the code, but don't know where to start, mess with settings.**
