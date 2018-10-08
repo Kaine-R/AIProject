@@ -18,7 +18,7 @@ $ pip install -r requirements.txt
 
 ## Running
 ```
-$ python main.py
+$ python3 main.py
 ```
 
 #### Image sizes (pixels):
