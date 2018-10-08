@@ -2,7 +2,7 @@
 # AI Project Fall 2018
 
 ## Installation
-Insure you have [pip](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) installed.
+Ensure you have [pip](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) installed.
 
 ### Linux
 ```
