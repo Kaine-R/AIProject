@@ -28,7 +28,7 @@ def checkUp(event, player):
     elif event.key == pygame.K_RIGHT:
         player.movementRight = False
     elif event.key == pygame.K_SPACE:
-        print("")
+        print("↑")
 
 # PLAYER SKILLS ---------------------------------------------------------------
 
@@ -48,6 +48,12 @@ def checkJump(player):
 def checkCollide(player, map, spikes):
     ground = False  # This is here to see if it's touching the ground, else it floats when walking off edge
     spikeCollide(player, spikes)
+
+    if player.x < 0:
+        player.collideLeft = True
+    elif player.x + player.rect.width > player.settings.screenWidth:
+        player.collideRight = True
+
     for block in map:
         if pygame.sprite.collide_rect(player, block):
             ground = checkDirection(player, block)
