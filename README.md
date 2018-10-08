@@ -1,3 +1,26 @@
+
+# AI Project Fall 2018
+
+## Installation
+Insure you have [pip](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) installed.
+
+### Linux
+```
+$ git clone git@github.com:FallingSnow/AIProjectFall2018.git
+$ cd AIProjectFall2018
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+```
+
+### Windows
+**TODO**
+
+## Running
+```
+$ python main.py
+```
+
 #### Image sizes (pixels):
 ```
 blocks are 50, 50

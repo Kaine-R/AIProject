@@ -15,11 +15,13 @@ downloads/
 eggs/
 .eggs/
 lib/
+Lib/
 lib64/
 parts/
 sdist/
 var/
 wheels/
+Scripts/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -109,4 +111,3 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
