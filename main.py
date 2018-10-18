@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Group
 from settings import Settings
-from map import Map
+from block import Block
 from player import Player
 from spike import Spike
 import gameFunctions as gf
@@ -14,7 +14,7 @@ def runGame():
     screen = pygame.display.set_mode((settings.screenWidth, settings.screenHeight))
     pygame.display.set_caption("AI Game")
     player = Player(screen, settings)
-    map = Group()
+    map = Group() # Group of all Blocks
 
     # testing spikes
     spikes = Group()
@@ -23,7 +23,7 @@ def runGame():
     newSpike2.rect.x, newSpike2.rect.bottom = 600, settings.screenHeight -50
     spikes.add(newSpike, newSpike2)
     # creates a lone block above the rest for testing
-    newBlock = Map(settings, screen)
+    newBlock = Block(settings, screen)
     newBlock.rect.x, newBlock.rect.y = 300, settings.screenHeight - 100
     map.add(newBlock)
     gf.makeMap(map, screen, settings) # makes the bottom layer right now

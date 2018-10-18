@@ -1,6 +1,6 @@
 import pygame
 import sys
-from map import Map
+from block import Block
 import sys
 
 
@@ -106,7 +106,7 @@ def spikeCollide(player, spikes):
 # MAP CREATION ----------------------------------------------------------
 def makeMap(map, screen, settings):  # Simple loops to set the floor
     for x in range(int(settings.screenWidth/50)):
-        newBlock = Map(settings, screen)
+        newBlock = Block(settings, screen)
         newBlock.rect.x = x * 50
         newBlock.rect.y = (settings.screenHeight - 50)
         map.add(newBlock)
