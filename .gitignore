@@ -111,3 +111,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+.idea/workspace.xml
+.idea/AIProjectFall2018.iml
+.idea/modules.xml
+.idea/misc.xml
+.idea/vcs.xml

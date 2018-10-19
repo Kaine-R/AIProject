@@ -2,13 +2,17 @@ import pygame
 from pygame.sprite import Sprite
 
 class Block(Sprite):
-    def __init__(self, settings, screen):
+    def __init__(self, settings, screen, xnum = 1, ynum = 1): # default num is 1 if nothing is passed
         super(Block, self).__init__() # Needed to make Groups()
-        self.image = pygame.image.load("Images/block1.png")  # Loads the image
-        self.rect = self.image.get_rect()  # pygame function to return the width and height of the picture
-        self.rect.x, self.rect.y = 50, 50  # Sets the default position of block at (50, 50)
         self.settings = settings
         self.screen = screen
+        self.image = pygame.image.load("Images/block1.png")  # Loads the image
+
+        self.makeBig(xnum, ynum) # if num 1 is passed then block is double the size
+
+    def makeBig(self, xnum, ynum):
+        self.image = pygame.transform.scale(self.image, (xnum*50, ynum*50))
+        self.rect = self.image.get_rect()
 
     def blit(self):
         self.screen.blit(self.image, self.rect)
