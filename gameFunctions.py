@@ -124,12 +124,15 @@ def enemyPlayerCollide(player, enemies):
 
 # MAP CREATION ----------------------------------------------------------
 def makeMap(map, screen, settings):  # Simple loops to set the floor
-    for x in range(int(settings.screenWidth/50)):
-        if x != 9:
-            newBlock = Block(settings, screen)
-            newBlock.rect.x = x * 50
-            newBlock.rect.y = (settings.screenHeight - 50)
-            map.add(newBlock)
+    newBlock = Block(settings, screen, 9, 1)
+    newBlock.rect.x = 0
+    newBlock.rect.y = (settings.screenHeight - 50)
+    map.add(newBlock)
+
+    newBlock = Block(settings, screen, 14, 1)
+    newBlock.rect.x = 500
+    newBlock.rect.y = (settings.screenHeight - 50)
+    map.add(newBlock)
 
     newBlock = Block(settings, screen, 1, 2)
     newBlock.rect.x = 350
@@ -155,6 +158,46 @@ def makeMap(map, screen, settings):  # Simple loops to set the floor
 def blitMap(map):
     for blocks in map:
         blocks.blit()
+
+# FILE FUNTIONS ----------------------------------------------------------
+def scanFront(player, map, spikes):
+    scanHit = (player.x + player.rect.width +5, player.y - player.rect.height/2)
+    item = -1 # item hit
+    temp = 0
+    data = 1300
+    for block in map:
+        for i in range(20):
+            if block.rect.collidepoint(scanHit):
+                temp = block.rect.x - player.rect.right
+                if temp < data:
+                    data = temp
+                    item = 0
+            scanHit = (player.x + player.rect.width +(i*20), player.y - player.rect.height/4)
+
+    scanHit = (player.x + player.rect.width +5, player.y - player.rect.height/2)
+    for spike in spikes:
+        for i in range(25):
+            if spike.rect.collidepoint(scanHit):
+                temp = spike.rect.x - player.rect.right
+                if temp < data:
+                    data = temp
+                    item = 1
+            scanHit = (player.x + player.rect.width +(i*15), player.y - player.rect.height/5)
+
+    if item != -1:
+        return data, item
+    else:
+        return "none", -1
+
+def addInfo(file, info):
+    splitA, splitB = info
+    if splitB == 0:
+        file.dataB.append(info)
+    elif splitB == 1:
+        file.dataS.append(info)
+    elif splitB == -1:
+        pass
+
 
 # EXTRAS -----------------------------------------------------------------
 
