@@ -1,14 +1,9 @@
 class File():
     def __init__(self): # 0 is blocks, 1 is spikes, 2 is else
-        self.dataB = []
-        self.dataS = []
+        self.info = []
 
-    def ratios(self, num):
-        for data in self.sections[num]:
-            pass
-
-    def addData(self, data, sec):
-        self.info.append(info)
+    def addData(self, data):
+        self.info.append(data)
 
 
 
@@ -17,11 +12,8 @@ class File():
     def save(self):
         self.file = open("data.txt", "w")
         if self.file.mode == "w":
-            for i in range(len(self.dataB)):
-                self.file.write(str(self.dataB[i]) + "\n")
-
-            for j in range(len(self.dataS)):
-                self.file.write(str(self.dataS[j]) + "\n")
+            for i in range(len(self.info)):
+                self.file.write(str(self.info[i]) + "\n")
 
         self.file.close()
 

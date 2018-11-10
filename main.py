@@ -4,6 +4,8 @@ from pygame.sprite import Group
 from settings import Settings
 from enemies import Baddie
 from player import Player
+from textBox import Text
+from bot import Bot
 from spike import Spike
 import gameFunctions as gf
 
@@ -17,9 +19,22 @@ def runGame():
     player = Player(screen, settings)
     file = File()
 
+    text = Text(screen, settings, "Testing asdasd", 150, 10)
+
+    allText = []
+    allText.append(text)
+
+
     map = Group() # Group of all Blocks
     spikes = Group() # testing spikes
     enemies = Group() # testing enemy
+
+
+    Bots = []
+    for i in range(1):
+        newBot = Bot(screen, settings)
+        Bots.append(newBot)
+        newBot.brain.printNodes()
 
     # newEnemy = Baddie(screen, settings)
     # newEnemy.rect.x, newEnemy.rect.y = 550, settings.screenHeight - 85
@@ -36,7 +51,7 @@ def runGame():
         gf.blitMap(map)                  # Draws the map on screen
         gf.drawGrid(settings, screen)    # Draw the Grid, helps for coding can be removed
 
-        gf.addInfo(file, gf.scanFront(player, map, spikes))
+        # gf.addInfo(file, gf.scanFront(player, map, spikes))
 
         gf.checkEvents(player)           # Checks Button Presses
         gf.checkCollide(player, map, spikes)     # Checks to see if player is hitting the world around him
@@ -45,15 +60,21 @@ def runGame():
         player.updatePlayer(map)         # Movement of the player
         player.drawPlayer()              # Draws the player
 
+        for bot in Bots:
+            data, item = gf.scanFront(bot, map, spikes)
+            bot.chooseInput(data, item)
+            bot.update()
+            bot.blit()
+
         for enemy in enemies:
             enemy.update()
             enemy.blit()
 
+        for text in allText:
+            text.blit()
         gf.checkJump(player)
         spikes.draw(screen)
 
-        # if pygame.time.get_ticks()%1000:
-        #     file.save()
         pygame.display.flip()            # Makes the display work (Don't Touch, Make sure this stay near the bottom)
 
 

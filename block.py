@@ -7,6 +7,7 @@ class Block(Sprite):
         self.settings = settings
         self.screen = screen
         self.image = pygame.image.load("Images/block1.png")  # Loads the image
+        self.id = 0
 
         self.makeBig(xnum, ynum) # if num 1 is passed then block is double the size
 

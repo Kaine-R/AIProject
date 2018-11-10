@@ -154,6 +154,11 @@ def makeMap(map, screen, settings):  # Simple loops to set the floor
     newBlock.rect.y = (settings.screenHeight - 200)
     map.add(newBlock)
 
+    newBlock = Block(settings, screen, 1, 1)
+    newBlock.rect.x = 150
+    newBlock.rect.y = (settings.screenHeight - 200)
+    map.add(newBlock)
+
 
 def blitMap(map):
     for blocks in map:
@@ -161,28 +166,23 @@ def blitMap(map):
 
 # FILE FUNTIONS ----------------------------------------------------------
 def scanFront(player, map, spikes):
-    scanHit = (player.x + player.rect.width +5, player.y - player.rect.height/2)
     item = -1 # item hit
-    temp = 0
-    data = 1300
+    data = 1200
+    tempItem = -1
+    tempData = 1300
     for block in map:
-        for i in range(20):
-            if block.rect.collidepoint(scanHit):
-                temp = block.rect.x - player.rect.right
-                if temp < data:
-                    data = temp
-                    item = 0
-            scanHit = (player.x + player.rect.width +(i*20), player.y - player.rect.height/4)
+        tempData, tempItem = scanObject(block, player)
+        if tempData < data:
+            data = tempData
+            item = tempItem
 
-    scanHit = (player.x + player.rect.width +5, player.y - player.rect.height/2)
     for spike in spikes:
-        for i in range(25):
-            if spike.rect.collidepoint(scanHit):
-                temp = spike.rect.x - player.rect.right
-                if temp < data:
-                    data = temp
-                    item = 1
-            scanHit = (player.x + player.rect.width +(i*15), player.y - player.rect.height/5)
+        tempData, tempItem = scanObject(spike, player)
+        if tempData < data:
+            data = tempData
+            item = tempItem
+
+    print(data, item)
 
     if item != -1:
         return data, item
@@ -191,13 +191,22 @@ def scanFront(player, map, spikes):
 
 def addInfo(file, info):
     splitA, splitB = info
-    if splitB == 0:
-        file.dataB.append(info)
-    elif splitB == 1:
-        file.dataS.append(info)
-    elif splitB == -1:
-        pass
 
+def scanObject(object, player):
+    scanHit = (player.x + player.rect.width +5, player.y - player.rect.height/3)
+    item = -1
+    data = 1300
+
+    for i in range(20):
+        if object.rect.collidepoint(scanHit):
+            temp = object.rect.x - player.rect.right
+            if temp < data:
+                data = temp
+                item = object.id
+                break
+        scanHit = (player.x + player.rect.width + (i * 20), player.y + player.rect.height / 3)
+
+    return (data, item)
 
 # EXTRAS -----------------------------------------------------------------
 
