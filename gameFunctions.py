@@ -1,7 +1,8 @@
 import pygame
-import sys
+from bot import Bot
 from block import Block
 import sys
+import copy
 
 
 # INPUTS BY USER ----------------------------------------------------------
@@ -28,7 +29,7 @@ def checkUp(event, player):
     elif event.key == pygame.K_RIGHT:
         player.movementRight = False
     elif event.key == pygame.K_SPACE:
-        print("↑")
+        pass
 
 # PLAYER SKILLS ---------------------------------------------------------------
 
@@ -49,10 +50,12 @@ def checkJump(player, num = 0):
 # COLLISIONS -------------------------------------------------------------------
 
 def checkCollide(player, map, spikes):
+    dead = False
     ground = False  # This is here to see if it's touching the ground, else it floats when walking off edge
-    spikeCollide(player, spikes)
-    if player.jump:
-        player.timer += 1
+    if spikeCollide(player, spikes):
+        if player.id != 0:
+            botDead(player)
+            dead = True
 
     if player.x < 0:
         player.collideLeft = True
@@ -71,6 +74,9 @@ def checkCollide(player, map, spikes):
     resetCollides(player)
     if ground == False:
         player.collideBottom = False
+
+    return dead
+
 
 def checkDirection(player, block):
     below = False
@@ -106,7 +112,8 @@ def resetCollides(player):  # If left or right collision is detected then it pus
 
 def spikeCollide(player, spikes):
     if pygame.sprite.spritecollideany(player, spikes):
-        player.reset()
+        return True
+    return False
 
 def enemyBlockCollide(enemies, map):
     for block in map:
@@ -124,39 +131,39 @@ def enemyPlayerCollide(player, enemies):
 
 # MAP CREATION ----------------------------------------------------------
 def makeMap(map, screen, settings):  # Simple loops to set the floor
-    newBlock = Block(settings, screen, 9, 1)
+    newBlock = Block(settings, screen, 10, 1)
     newBlock.rect.x = 0
     newBlock.rect.y = (settings.screenHeight - 50)
     map.add(newBlock)
 
-    newBlock = Block(settings, screen, 14, 1)
-    newBlock.rect.x = 500
+    newBlock = Block(settings, screen, 13, 1)
+    newBlock.rect.x = 550
     newBlock.rect.y = (settings.screenHeight - 50)
     map.add(newBlock)
 
-    newBlock = Block(settings, screen, 1, 2)
-    newBlock.rect.x = 350
-    newBlock.rect.y = (settings.screenHeight - 150)
-    map.add(newBlock)
-
     newBlock = Block(settings, screen, 1, 1)
-    newBlock.rect.x = 300
+    newBlock.rect.x = 350
     newBlock.rect.y = (settings.screenHeight - 100)
     map.add(newBlock)
 
-    newBlock = Block(settings, screen, 1, 3)
+    newBlock = Block(settings, screen, 1, 2)
     newBlock.rect.x = 400
+    newBlock.rect.y = (settings.screenHeight - 150)
+    map.add(newBlock)
+
+    newBlock = Block(settings, screen, 1, 3)
+    newBlock.rect.x = 450
     newBlock.rect.y = (settings.screenHeight - 200)
     map.add(newBlock)
 
-    newBlock = Block(settings, screen, 4, 3)
-    newBlock.rect.x = 900
+    newBlock = Block(settings, screen, 3, 3)
+    newBlock.rect.x = 950
     newBlock.rect.y = (settings.screenHeight - 200)
     map.add(newBlock)
 
     newBlock = Block(settings, screen, 1, 1)
     newBlock.rect.x = 150
-    newBlock.rect.y = (settings.screenHeight - 200)
+    newBlock.rect.y = (settings.screenHeight - 250)
     map.add(newBlock)
 
 
@@ -182,7 +189,7 @@ def scanFront(player, map, spikes):
             data = tempData
             item = tempItem
 
-    print(data, item)
+    #print(data, item)
 
     if item != -1:
         return data, item
@@ -208,6 +215,49 @@ def scanObject(object, player):
 
     return (data, item)
 
+def bestBots(bots):
+    listScore = []
+    for i in range(int(len(bots))):
+        if bots[i].dead:
+            bots[i].score = int(bots[i].score/4)
+        listScore.append((bots[i].score, i))
+    listScore.sort()
+    print("Sort Bots:")
+    print(listScore)
+
+    return listScore
+
+def split(listScore, Bots):
+    listNum = []
+    for i in range(int(len(listScore) /2)):
+        tempScore, tempNum = listScore[i]
+        listNum.append(tempNum)
+
+    listNum.sort(reverse=True)
+    for num in listNum:
+        Bots.pop(num)
+
+    size = int(len(Bots))
+    for i in range(size):
+        newBot = Bot(Bots[i].screen, Bots[i].settings)
+        newBot.brain = copy.deepcopy(Bots[i].brain)
+        Bots[i].reset()
+        Bots.append(newBot)
+
+
+def botDead(bot):
+    bot.dead = True
+    bot.x, bot.y = (bot.id *18), 50
+    bot.rect.x, bot.rect.y = bot.x, bot.y
+    bot.colorRect.x, bot.colorRect.y = bot.x, bot.y
+
+def roundTimer(timer, roundTime):
+    if timer >= roundTime:
+        timer = 0
+        return True
+    return False
+
+
 # EXTRAS -----------------------------------------------------------------
 
 def drawGrid(settings, screen):
@@ -215,3 +265,13 @@ def drawGrid(settings, screen):
         for i in range(int(settings.screenWidth/50)):
             pygame.draw.line(screen, (150, 150, 150), (0, 50*x), (settings.screenWidth, x*50))
             pygame.draw.line(screen, (150, 150, 150), (i*50, 0), (i*50, settings.screenHeight))
+
+def printInfo(bots, death):
+    for bot in bots:
+        print("ID " + str(bot.id) + "_" + str(bot.dead) + ": (" + str(bot.x) + ", " + str(bot.y) + ")")
+
+        print(bot.brain.nodes)
+        print("---------------------------")
+
+   # print(str(death) + " : " + str(len(bots)))
+    print("---------------------------")

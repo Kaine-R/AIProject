@@ -3,48 +3,46 @@ import random
 class Brain():
     def __init__(self):
         self.nodes = []
-        self.nodeLimit = 5
+        self.nodeLimit = 6
         self.info = ()
 
 
     def setBrain(self):
         idealDistance = random.randint(0, 350)
-        rand = random.randint(-1, 1)
-        idealItem = [rand]
-        if random.randint(0, 4) == 0:
-            tempRand = random.randint(-1, 1)
-            if rand != tempRand:
-                idealItem.append(tempRand)
-        if random.randint(0, 1) == 0:
-            botInput = 0
-        else:
-            botInput = 1
+        idealItem = random.randint(-1, 1)
+        botInput = random.randint(0, 3)
         self.info = (idealDistance, idealItem, botInput)
         self.nodes.append(self.info)
 
     def evolve(self):
-        choices = 2
-        choose = random.randint(0, choices-1)
-        if choose == 0: # add node
+        choices = 3
+        choose = random.randint(0, choices * 10)
+
+        if len(self.nodes) < 3:
+            choose = 5
+        elif len(self.nodes) > 5:
+            choose = 10
+
+        if choose <= 5: # add node ==============================================================
             if len(self.nodes) < self.nodeLimit:
+
                 idealDistance = random.randint(0, 350)
-                rand = random.randint(-1, 1)
-                idealItem = [rand]
-                if random.randint(0, 4) == 0:
-                    tempRand = random.randint(-1,1)
-                    if rand != tempRand:
-                        idealItem.append(tempRand)
-                if random.randint(0, 1) == 0:
-                    botInput = 0
-                else:
-                    botInput = 1
+                idealItem = random.randint(-1, 1)
+                botInput = random.randint(0, 3)
                 self.info = (idealDistance, idealItem, botInput)
                 self.nodes.append(self.info)
-        elif choose == 1: # evolve a node (change a few values)
+
+        elif choose <= 10: # remove a Node ===========================================================
             if len(self.nodes) > 0:
-                chooseNode = random.randint(0, len(self.nodes))
-                idealDistance, idealItem = self.nodes[chooseNode]
-                if random.randint(0, 1):
+                self.nodes.pop(random.randint(0, len(self.nodes) -1))
+
+        elif choose <= 25: # evolve a node (change a few values) ============================================
+            if len(self.nodes) > 0:
+                chooseNode = random.randint(0, len(self.nodes) -1)
+                idealDistance, idealItem, idealInput = self.nodes[chooseNode]
+                randint = random.randint(0, 10)
+
+                if randint < 6:
                     if random.randint(0, 1) == 0:
                         idealDistance -= random.randint(0, 50)
                         if idealDistance < 0:
@@ -53,22 +51,14 @@ class Brain():
                         idealDistance += random.randint(0, 50)
                         if idealDistance > 350:
                             idealDistance = 350
+                elif randint < 8:
+                    idealItem = random.randint(-1, 1)
                 else:
-                    if len(idealItem) == 0:
-                        idealItem[0] = random.randint(-1, 1)
-                    elif len(idealItem) == 1:
-                        if random.randint(0, 3) == 0:
-                            rand = random.randint(-1, 1)
-                            if rand != idealItem[0]:
-                                idealItem.append(rand)
-                        else:
-                            idealItem[0] = random.randint(-1, 1)
-                    else:
-                        if random.randint(0, 3) != 0:
-                            idealItem.pop(random.randint(0, len(idealItem)))
-                        else:
-                            print("EVO: idealItems >=2 no funtion")
+                    idealInput = random.randint(0, 3)
 
-    def printNodes(self):
-        for node in self.nodes:
-            print(node)
+                self.nodes[chooseNode] = (idealDistance, idealItem, idealInput)
+
+
+        else: # ================================================================================
+            pass
+

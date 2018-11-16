@@ -2,10 +2,10 @@ import pygame
 
 
 class Text():
-    def __init__(self, screen, settings, msg, x, y):
+    def __init__(self, screen, settings, msg, size, x, y):
         self.screen = screen
         self.settings = settings
-        self.font = pygame.font.SysFont(None, 48, False, False)
+        self.font = pygame.font.SysFont(None, size, False, False)
 
         self.prep(msg, x, y)
 

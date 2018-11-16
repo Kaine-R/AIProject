@@ -6,6 +6,7 @@ class Player:
     def __init__(self, screen, settings):
         self.screen = screen
         self.settings = settings
+        self.id = 0
 
         self.movementLeft = False
         self.movementRight = False
