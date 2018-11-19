@@ -14,6 +14,7 @@ def runGame():
     pygame.init()
 
     timer = 0
+    timerAdd = 0
     clock = pygame.time.Clock()
     settings = Settings()
     screen = pygame.display.set_mode((settings.screenWidth, settings.screenHeight))
@@ -49,7 +50,7 @@ def runGame():
     newSpike3 = Spike(settings, screen)
     newSpike.rect.x, newSpike.rect.bottom = 265, settings.screenHeight -50
     newSpike2.rect.x, newSpike2.rect.bottom = 650, settings.screenHeight -50
-    newSpike3.rect.x, newSpike3.rect.bottom = 120, settings.screenHeight -100
+    newSpike3.rect.x, newSpike3.rect.bottom = 120, settings.screenHeight -120
     spikes.add(newSpike, newSpike2, newSpike3)
 
     gf.makeMap(map, screen, settings) # makes the bottom layer right now
@@ -79,18 +80,18 @@ def runGame():
 
 
         timer += 1
-        if gf.roundTimer(timer, 280 + gen) or death >= len(Bots):
+        if gf.roundTimer(timer, int(340 + (gen * 3) + (timerAdd * 1.5))) or death >= len(Bots):
             death = 0
             gen += 1
             timer = 0
-            gf.split(gf.bestBots(Bots), Bots)
-            for i in range(int(len(Bots))):
-                Bots[i].brain.evolve()
-                Bots[i].id = i + 1
-                Bots[i].reset()
-                Bots[i].colorChange()
+            gf.split(gf.bestBots(Bots), Bots, timerAdd)
+            for i in range(int(len(Bots) -15)):
+                Bots[i+15].brain.evolve()
+                Bots[i+15].id = i + 1
+                Bots[i+15].reset()
+                Bots[i+15].colorChange()
 
-        gf.printInfo(Bots, death)
+        #gf.printInfo(Bots, death)
         for i in range(int(len(Bots))):
             if Bots[i].dead == False:
                 Bots[i].update()
@@ -108,6 +109,6 @@ def runGame():
         spikes.draw(screen)
 
         pygame.display.flip()            # Makes the display work (Don't Touch, Make sure this stay near the bottom)
-        clock.tick(120)
+        clock.tick(1200)
 
 runGame()

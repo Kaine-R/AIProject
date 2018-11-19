@@ -227,7 +227,7 @@ def bestBots(bots):
 
     return listScore
 
-def split(listScore, Bots):
+def split(listScore, Bots, timerAdd):
     listNum = []
     for i in range(int(len(listScore) /2)):
         tempScore, tempNum = listScore[i]
@@ -239,6 +239,8 @@ def split(listScore, Bots):
 
     size = int(len(Bots))
     for i in range(size):
+        if Bots[i].score > timerAdd:
+            timerAdd = int(Bots[i].score)
         newBot = Bot(Bots[i].screen, Bots[i].settings)
         newBot.brain = copy.deepcopy(Bots[i].brain)
         Bots[i].reset()

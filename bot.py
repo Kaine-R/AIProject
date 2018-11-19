@@ -44,24 +44,25 @@ class Bot:
         chooseNode = 0
 
         if len(self.brain.nodes) > 0:
+            tempwWeight = 0
+            tempMult =1
             for node in self.brain.nodes:
                 tempDis, tempItem, tempInput = node
 
-                if data != "none":
-                    point1 = tempDis - data
-                    if point1 < 0:
-                        point1 * -1
-                    tempWeight = 350 - point1
-                    if tempItem == item:
-                        tempWeight *1.5
-                    if tempWeight > weight:
-                        weight = tempWeight
-                        chooseNode = nodeNum
+                if tempItem == item:
+                    tempMult += .3
+
+                if tempDis == data:
+                    tempMult += .2
+
+                if item == -1:
+                    tempWeight = 300
                 else:
-                    tempWeight = 10
-                    if tempItem == -1 and item == -1:
-                        tempWeight += 340
-                    chooseNode = nodeNum
+                    tempWeight = tempDis - data
+                    if tempWeight < 0:
+                        tempWeight = tempWeight * -1
+
+                tempWeight = tempWeight * tempMult
 
                 if tempWeight > weight:
                     weight = tempWeight
@@ -129,17 +130,14 @@ class Bot:
 
 
     def colorChange(self):
-        if self.id == 1:
-            self.color = (250, 15, 15)
-        elif self.id == 2:
-            self.color = (15, 250, 15)
-        elif self.id == 3:
-            self.color = (15, 15, 250)
-        elif self.id == 4:
-            self.color = (50, 50, 50)
-        elif self.id == 5:
-            self.color = (200, 200, 200)
-        elif self.id == 6:
-            self.color = (125, 125, 125)
+        if self.id % 10 == 0:
+            color = 250
         else:
-            self.color = (0, 0, 0)
+            color = (int(((self.id % 10) * 25)))
+
+        if self.id <= 10:
+            self.color = (color, 50, 50)
+        elif self.id <= 20:
+            self.color = (50, color, 50)
+        elif self.id <= 30:
+            self.color = (50, 50, color)
