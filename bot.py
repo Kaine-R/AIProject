@@ -88,9 +88,6 @@ class Bot:
         print("-----------")
 
     def update(self):
-        if self.rect.x > self.score:
-            self.score = self.rect.x
-
         if self.jump and self.collideBottom:
             self.y -= 10
             self.jump = False
@@ -107,9 +104,12 @@ class Bot:
                 self.jumpNum = 0
             self.y -= yShift
 
+        self.rect.x, self.rect.y = self.x, self.y
+
         if self.collideBottom == False:
             self.y += 1.5
         if self.movementRight == True:
+            self.score += 1
             self.x += .75
 
         self.jump = False

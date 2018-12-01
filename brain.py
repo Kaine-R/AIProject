@@ -3,8 +3,9 @@ import random
 class Brain():
     def __init__(self):
         self.nodes = []
-        self.nodeLimit = 6
+        self.nodeLimit =6
         self.info = ()
+
 
 
     def setBrain(self):
