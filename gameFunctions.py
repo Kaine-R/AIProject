@@ -1,10 +1,11 @@
 import pygame
 from bot import Bot
 from block import Block
+from cloud import Cloud
 from spike import Spike
 import sys
 import copy
-
+from random import randint
 
 # INPUTS BY USER ----------------------------------------------------------
 def checkEvents(gameStats):
@@ -113,6 +114,12 @@ def enemyPlayerCollide(player, enemies):
 
 # MAP CREATION ----------------------------------------------------------
 def makeMap(map, spikes, screen, settings):  # Simple loops to set the floor
+
+    for i in range(5):
+        x = randint(settings.screenWidth, settings.screenWidth * 2)
+        y = randint(0, settings.screenHeight - 300)
+        newCloud = Cloud(settings, screen, x, y)
+        map.add(newCloud)
 
 
     for i in range(4):
@@ -308,4 +315,3 @@ def resetScreen(gameStats, blocks, spikes, bots):
         bot.x += gameStats.xShift
 
     gameStats.xShift = 0
-
