@@ -293,7 +293,6 @@ def screenRoll(gameStats, blocks, spikes, bots):
             block.rect.x -= shift
         for bot in bots:
             bot.x -= shift
-        gameStats.screen_bot_roll = False
 
     if gameStats.screen_roll_back and gameStats.xShift > 0:
         gameStats.xShift -= 2
