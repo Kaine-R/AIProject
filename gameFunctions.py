@@ -113,13 +113,13 @@ def enemyPlayerCollide(player, enemies):
             player.reset()
 
 # MAP CREATION ----------------------------------------------------------
-def makeMap(map, spikes, screen, settings):  # Simple loops to set the floor
+def makeMap(map, spikes, sky, screen, settings):  # Simple loops to set the floor
 
     for i in range(5):
         x = randint(settings.screenWidth, settings.screenWidth * 2)
         y = randint(0, settings.screenHeight - 300)
         newCloud = Cloud(settings, screen, x, y)
-        map.add(newCloud)
+        sky.add(newCloud)
 
 
     for i in range(4):
@@ -148,6 +148,16 @@ def makeMap(map, spikes, screen, settings):  # Simple loops to set the floor
     newBlock.rect.y = (settings.screenHeight - 200)
     map.add(newBlock)
 
+    newBlock = Block(settings, screen, 2, 1)
+    newBlock.rect.x = 1000
+    newBlock.rect.y = (settings.screenHeight - 100)
+    map.add(newBlock)
+
+    newBlock = Block(settings, screen, 2, 6)
+    newBlock.rect.x = 1500
+    newBlock.rect.y = (settings.screenHeight - 250)
+    map.add(newBlock)
+
     # newBlock = Block(settings, screen, 2, 1)
     # newBlock.rect.x = 800
     # newBlock.rect.y = (settings.screenHeight - 100)
@@ -170,6 +180,10 @@ def makeMap(map, spikes, screen, settings):  # Simple loops to set the floor
         newSpike = Spike(settings, screen)
         newSpike.rect.x, newSpike.rect.bottom = 830 +(i * 45), settings.screenHeight - 100
         spikes.add(newSpike)
+
+    newSpike= Spike(settings, screen)
+    newSpike.rect.x, newSpike.rect.bottom = 1150, settings.screenHeight -100
+    spikes.add(newSpike)
 
 
 def blitMap(map):

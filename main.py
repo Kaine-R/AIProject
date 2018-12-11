@@ -32,6 +32,7 @@ def runGame():
 
     map = Group() # Group of all Blocks
     spikes = Group() # testing spikes
+    sky = Group()
     enemies = Group() # testing enemy
 
     Bots = []
@@ -48,11 +49,12 @@ def runGame():
 
 
 
-    gf.makeMap(map, spikes, screen, settings) # makes the bottom layer right now
+    gf.makeMap(map, spikes, sky, screen, settings) # makes the bottom layer right now
 
     while True:
         screen.fill(settings.bgColor)    # Fills background with solid color, can add clouds or something later
         gf.blitMap(map)                  # Draws the map on screen
+        gf.blitMap(sky)
         gf.drawGrid(settings, screen, gameStats)    # Draw the Grid, helps for coding can be removed
 
 
@@ -67,7 +69,7 @@ def runGame():
             if gf.checkCollide(bot, map, spikes):
                 death += 1
             if bot.dead == False:
-                if bot.rect.x > 3* (bot.settings.screenWidth/4):
+                if bot.rect.x > 19* (bot.settings.screenWidth/24):
                     gameStats.screen_bot_roll = True
                 data, item = gf.scanFront(bot, map, spikes)
                 bot.chooseInput(data, item)
@@ -80,6 +82,7 @@ def runGame():
             gen += 1
             timer = 0
             timerAdd = 0
+            gameStats.screen_bot_roll = False
             gf.resetScreen(gameStats, map, spikes, Bots)
             for i in range(len(Bots)-1):
 
