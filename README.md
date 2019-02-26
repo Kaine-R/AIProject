@@ -1,25 +1,12 @@
 
-# AI Project Fall 2018
+# AI Project
+I (Kaine Rubalcava) started this as a personal project where later on it was adapted into a AI course. Once the AI course was completed, I then wanted to take it a bit further. To do this I plan on making the game run faster and more efficiently.
+Also adding some extra options would be the next major addition, these options would be: groups (how many groups would be in one generation), amount of bots in the groups, simple level editor, settings (screen width, height, frame rate cap), testing grounds (allows for testing to see how many bots on screen would start to make the program lag).
 
-## Installation
-Ensure you have [pip](https://packaging.python.org/tutorials/installing-packages/#ensure-you-can-run-pip-from-the-command-line) installed.
-
-### Linux
-```
-$ git clone git@github.com:FallingSnow/AIProjectFall2018.git
-$ cd AIProjectFall2018
-$ python3 -m venv .venv
-$ source .venv/bin/activate
-$ pip install -r requirements.txt
-```
-
-### Windows
-**TODO**
-
-## Running
-```
-$ python3 main.py
-```
+#Specs
+I'm currently using Python(3) to create this program. The IDE I use is Pycharm with the Pygame library. My laptop is
+currently using windows 10 and is fairly new, while I have tried running this program on other computers using various
+operating systems there has been no testing to see if they preform as well as the specs I have now.
 
 #### Image sizes (pixels):
 ```
@@ -62,9 +49,3 @@ The player is a bit different, if you want to move him, then you have to move `p
     newBlock.rect.x, newBlock.rect.y = 50, 50 # moved block to coordinate (50, 50)
     map.add(newBlock)  # Adds new block into the group for collide testing
 ```
-
-**Enemy is not yet finished and is only going to be added if the spike doesn't seem like enough of a challenge.**
-
-**As for as I know, pygame doesn't use triangles, so we'll create some kind of square killing device**
-
-**If you want to mess around with the code, but don't know where to start, mess with settings.**

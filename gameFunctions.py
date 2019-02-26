@@ -1,7 +1,6 @@
 import pygame
 from bot import Bot
 from block import Block
-from cloud import Cloud
 from spike import Spike
 import sys
 import copy
@@ -113,13 +112,12 @@ def enemyPlayerCollide(player, enemies):
             player.reset()
 
 # MAP CREATION ----------------------------------------------------------
-def makeMap(map, spikes, sky, screen, settings):  # Simple loops to set the floor
+def makeMap(map, spikes, screen, settings):  # Simple loops to set the floor
 
     for i in range(5):
         x = randint(settings.screenWidth, settings.screenWidth * 2)
         y = randint(0, settings.screenHeight - 300)
-        newCloud = Cloud(settings, screen, x, y)
-        sky.add(newCloud)
+
 
 
     for i in range(4):
