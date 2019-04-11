@@ -44,3 +44,7 @@ class Player:
     def reset(self):
         self.x = 50
         self.y = self.settings.screenHeight - 100
+        self.movementLeft, self.movementRight = False, False
+        self.jump = False
+        self.timer = 0
+

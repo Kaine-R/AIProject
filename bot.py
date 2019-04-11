@@ -10,7 +10,8 @@ class Bot:
         self.score = 0
         self.dead = False
 
-        self.color = (250, 150, 10)
+        self.life = 1
+        self.color =(0, 0, 0)
 
         self.screen = screen
         self.settings = settings
@@ -34,40 +35,25 @@ class Bot:
 
         self.colorRect = pygame.Rect(self.x, self.y, 13, 17)
 
-
     def evolve(self):
         self.brain.evolve()
 
-    def chooseInput(self, data, item):
-        nodeNum = 0
-        weight = 0
-        chooseNode = 0
-
-        if len(self.brain.nodes) > 0:
-            tempwWeight = 0
-            tempMult =1
-            for node in self.brain.nodes:
-                tempDis, tempItem, tempInput = node
-
-                if tempItem == item:
-                    tempMult += .3
-
-                if tempDis == data:
-                    tempMult += .2
-
-                if item == -1:
-                    tempWeight = 300
-                else:
-                    tempWeight = tempDis - data
-                    if tempWeight < 0:
-                        tempWeight = tempWeight * -1
-
-                tempWeight = tempWeight * tempMult
-
-                if tempWeight > weight:
+    def chooseInput(self, data, item):  #temp variables are node info, base values are whats actually seen by bot
+        if item == -1:
+            chooseNode = 0
+        else:
+            weight = 400
+            for i in range(len(self.brain.nodes)):
+                tempDis, tempItem, tempInput = self.brain.nodes[i]
+                tempWeight = abs(tempDis - data)
+                if tempItem != item:
+                    tempWeight += 100
+                if round(tempDis) == round(data):
+                    tempWeight -= 20
+                if tempWeight < weight:
                     weight = tempWeight
-                    chooseNode = nodeNum
-                nodeNum += 1
+                    chooseNode = i
+
 
         idealDis, idealItem, botInput = self.brain.nodes[chooseNode]
         if botInput == 0:
@@ -84,7 +70,15 @@ class Bot:
             print("Stop and Jump")
 
         print("ID: " + str(self.id))
-        print("Node: " + str(chooseNode) + "/" + str(len(self.brain.nodes)))
+        print("Node: " + str(chooseNode) + "/" + str(len(self.brain.nodes)-1), end='')
+        print(", Dis: " + str(data), end='')
+        if item == 0:
+            tempText = "Box"
+        elif item == 1:
+            tempText = "Spike"
+        else:
+            tempText = "Nothing #" + str(item)
+        print("  Item: " + tempText + ", ")
         print("-----------")
 
     def update(self):
@@ -122,22 +116,27 @@ class Bot:
         self.screen.blit(self.image, self.rect)
         pygame.draw.rect(self.screen, self.color, self.colorRect)
 
+    def printBrain(self):
+        self.brain.print()
+
     def reset(self):
         self.dead = False
         self.score = 0
         self.x, self.y = 50, self.settings.screenHeight - 90
         self.rect.x, self.rect.y = self.x, self.y
 
+    def resetLife(self):
+        self.life = 0
 
-    def colorChange(self):
-        if self.id % 10 == 0:
-            color = 250
+    def increaseLife(self):
+        self.life += 1
+        if self.life <= 5:
+            self.color = (self.life*50, self.life*50, self.life*50)
+        elif self.life <= 10:
+            self.color = (255, self.life%5*30, self.life%5*30)
+        elif self.life <= 15:
+            self.color = (self.life%5*30, self.life%5*30, 255)
         else:
-            color = (int(((self.id % 10) * 25)))
+            self.color = (self.life%5*20, 255, self.life%5*20)
 
-        if self.id <= 10:
-            self.color = (color, 50, 50)
-        elif self.id <= 20:
-            self.color = (50, color, 50)
-        elif self.id <= 30:
-            self.color = (50, 50, color)
+
